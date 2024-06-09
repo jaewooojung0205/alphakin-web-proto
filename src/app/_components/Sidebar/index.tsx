@@ -1,14 +1,26 @@
 "use client";
 
-import { BellIcon, DocumentIcon, LightBulbIcon } from "@/components/iconSVG";
-import { useUiStore } from "@/providers/ui-store-provider";
+import {
+  BellIcon,
+  DocumentIcon,
+  LightBulbIcon,
+  PlusIcon,
+} from "@/components/iconSVG";
 import clsx from "clsx";
 import { usePathname } from "next/navigation";
 import NavItem from "./NavItem";
+import { useCommonStore } from "@/providers/common";
+import { useUserStore } from "@/providers/user";
 
 export default function Sidebar() {
   const pathname = usePathname();
-  const sidebarExpanded = useUiStore((state) => state.sidebarExpanded);
+  const sidebarExpanded = useCommonStore((state) => state.sidebarExpanded);
+  const user = useUserStore((state) => state.user);
+
+  if (!user) {
+    return null;
+  }
+
   return (
     <aside className="p-3 w-fit h-full shadow-lg">
       <nav
@@ -21,7 +33,7 @@ export default function Sidebar() {
         <NavItem
           path="/"
           title="Notes"
-          icon={<DocumentIcon className="shrink-0 w-6 h-6 stroke-black" />}
+          icon={<PlusIcon className="shrink-0 w-6 h-6 stroke-black" />}
           active={pathname === "/"}
           sidebarExpanded={sidebarExpanded}
         />
@@ -39,6 +51,13 @@ export default function Sidebar() {
           title="Ideas"
           icon={<LightBulbIcon className="shrink-0 w-6 h-6 stroke-black" />}
           active={pathname === "/ideas"}
+          sidebarExpanded={sidebarExpanded}
+        />
+        <NavItem
+          path="/papers"
+          title="Papers"
+          icon={<DocumentIcon className="shrink-0 w-6 h-6 stroke-black" />}
+          active={pathname === "/papers"}
           sidebarExpanded={sidebarExpanded}
         />
       </nav>

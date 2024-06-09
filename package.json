@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "serve": "firebase emulators:start --only firestore,functions,auth"
+    "serve": "firebase emulators:start --only firestore,functions,auth",
+    "firestore-rules": "firebase deploy --only firestore:rules"
   },
   "dependencies": {
     "next": "14.2.3",
@@ -19,6 +20,7 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "clsx": "^2.1.1",
+    "dayjs": "^1.11.11",
     "eslint": "^8",
     "eslint-config-next": "14.2.3",
     "firebase": "^10.12.2",

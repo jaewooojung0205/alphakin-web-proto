@@ -1,9 +1,11 @@
 "use client";
 
 import { Bar3Icon } from "@/components/iconSVG";
-import { useUiStore } from "@/providers/ui-store-provider";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
+import { useCommonStore } from "@/providers/common";
+import User from "./User";
+import { useUserStore } from "@/providers/user";
 
 function Title() {
   const pathname = usePathname();
@@ -19,9 +21,15 @@ function Title() {
 }
 
 export default function Header() {
-  const toggleSidebar = useUiStore((state) => state.toggleSidebar);
+  const toggleSidebar = useCommonStore((state) => state.toggleSidebar);
+  const user = useUserStore((state) => state.user);
+
+  if (!user) {
+    return null;
+  }
+
   return (
-    <header className="p-3 h-14 flex items-center border-b-2">
+    <header className="p-3 h-14 flex justify-between items-center border-b-2">
       <div className="flex items-center gap-3">
         <button
           className={clsx(
@@ -33,6 +41,7 @@ export default function Header() {
         </button>
         <Title />
       </div>
+      <User />
     </header>
   );
 }

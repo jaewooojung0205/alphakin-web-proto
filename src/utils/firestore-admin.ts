@@ -1,30 +1,19 @@
+/**
+ * create, update, delete는 서버에서?
+ */
+
 import "server-only";
 
 import { firestoreAdmin } from "@/lib/firebase-admin";
 
-export async function getMemos(): Promise<{
-  ok: boolean;
-  data: IMemo[] | null;
-}> {
+export async function createNote(
+  payload: INoteDB
+): Promise<{ ok: boolean; id: string | null }> {
   try {
-    const result: IMemo[] = [];
-    const querySnapshot = await firestoreAdmin.collection("memos").get();
-    querySnapshot.forEach((qs) => {
-      const data = qs.data() as IMemoDB;
-      result.push({
-        id: qs.id,
-        ...data,
-      });
-    });
-    return {
-      ok: true,
-      data: result,
-    };
+    const docRef = await firestoreAdmin.collection("notes").add(payload);
+    return { ok: true, id: docRef.id };
   } catch (error) {
     console.error(error);
-    return {
-      ok: false,
-      data: null,
-    };
+    return { ok: false, id: null };
   }
 }
